@@ -3,6 +3,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Scanner } from '../pages/scanner/scanner';
 import { Page2 } from '../pages/page2/page2';
+import { BleModal } from '../pages/blemodal/blemodal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -12,7 +13,8 @@ import { BLE } from '@ionic-native/ble';
   declarations: [
     MyApp,
     Scanner,
-    Page2
+    Page2,
+    BleModal
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -21,6 +23,7 @@ import { BLE } from '@ionic-native/ble';
   entryComponents: [
     MyApp,
     Scanner,
+    BleModal,
     Page2
   ],
   providers: [
