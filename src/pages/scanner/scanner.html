@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-item [hidden]="isScanning || !bleEnabled"><button (click)="scanDevices()">Scan for devices</button></ion-item>
+    <div [hidden]="!isScanning">Scanning... <ion-spinner></ion-spinner></div>
+    <div [hidden]="isScanning || !bleEnabled"><button (click)="scanDevices()" ion-button>Scan for devices</button></div>
     <ion-list no-lines>
-        <ion-list-header [hidden]="!isScanning">Scanning... <ion-spinner></ion-spinner></ion-list-header>
         <ion-item-sliding *ngFor="let device of devices" #slidingItem>
         <button ion-item (click)="deviceSelected(device)"><span *ngIf="device.name">{{ device.name }}</span><span *ngIf="!device.name">{{ device.id }}</span></button>
         </ion-item-sliding>

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { Platform } from 'ionic-angular';
 
+import { NgZone } from '@angular/core';
+
 import { ModalController } from 'ionic-angular';
 
 import { NavController } from 'ionic-angular';
@@ -28,7 +30,7 @@ export class Scanner {
 
   public bluetooth: BLE;
 
-  constructor(public navCtrl: NavController, public plt: Platform, public ble: BLE, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public plt: Platform, public ble: BLE, public modalCtrl: ModalController, public zone: NgZone) {
     this.hideSystemBLE = !this.plt.is('android');
     this.plt.ready().then((readySource) => {
         this.bluetooth = ble;
@@ -36,12 +38,15 @@ export class Scanner {
   }
 
   scanDevices() {
+    this.devices = [];
     this.ble.isEnabled().then( () => {
         console.log("Starting bluetooth device scan");
         this.isScanning = true;
         this.ble.startScan([]).subscribe( device => {
             console.log("Discovered", device);
-            this.devices.push(device);
+            this.zone.run( () => {
+                this.devices.push(device);
+            });
         });
 
         setTimeout(() => {
