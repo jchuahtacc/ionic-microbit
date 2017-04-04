@@ -8,6 +8,7 @@ import { BleModal } from '../pages/blemodal/blemodal';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BLE } from '@ionic-native/ble';
+import { AppPreferences } from '@ionic-native/app-preferences';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { BLE } from '@ionic-native/ble';
     StatusBar,
     SplashScreen,
     BLE,
+    AppPreferences,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

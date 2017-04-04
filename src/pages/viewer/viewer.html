@@ -18,9 +18,9 @@
 
 <ion-content padding>
     <div *ngIf="device != null">
-        <div *ngIf="isConnecting">Connecting to {{device.name ? device.name : device.id }} <ion-spinner></ion-spinner></div>
-        <div *ngIf="isConnectFailed">Failed to connect to {{device.name ? device.name : device.id}}<br /><button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button></div>
-        <div *ngIf="device">{{device.id}}</div>
+        <div *ngIf="sensor.isConnecting">Connecting to {{device.name ? device.name : device.id }} <ion-spinner></ion-spinner></div>
+        <div *ngIf="!sensor.isConnected && !sensor.isConnecting">Failed to connect to {{device.name ? device.name : device.id}}<br /><button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button></div>
+        <div *ngIf="sensor.isConnected">{{device.id}}</div>
     </div>
     <ion-list no-lines>
         <ion-list-header>Accelerometer (G)</ion-list-header>

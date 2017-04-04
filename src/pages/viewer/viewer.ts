@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { NgZone } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BLE } from '@ionic-native/ble';
+import { AppPreferences } from '@ionic-native/app-preferences';
 import { Scanner } from '../scanner/scanner';
 import { SensorModel } from '../../models/sensor';
 
@@ -24,17 +26,42 @@ export class ViewerPage {
 
     public isConnectFailed: boolean = false;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public ble: BLE) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public ble: BLE, private prefs: AppPreferences, public zone: NgZone) {
         this.device = this.navParams.get('device');
-        if (this.device) {
+        if (!this.device || !this.device.id) {
+            console.log("No device selected. Attempting to load from preferences...");
+            this.prefs.fetch('device_id').then( (id) => { 
+                if (!id || !id.length) {
+                    console.log("couldn't find device_id preference");
+                    this.goToBluetooth();
+                } else {
+                    console.log("found device_id preference", id);
+                    this.device = { };
+                    this.device.id = id;
+                }
+            },
+            () => {
+                console.log("Couldn't load app preferences from system!");
+                this.goToBluetooth();
+            });
+        } else {
+            console.log("Saving device_id preference");
+            this.prefs.store('device_id', this.device.id).then( () => { console.log("device_id preference saved"); }, () => { console.log("failed to save device_id preference!"); });
+            this.connectToDevice();
             this.sensor = new SensorModel(this.device.id);
         }
     }
 
+    connectToDevice() {
+
+    }
+
+    goToBluetooth() {
+        this.navCtrl.setRoot(Scanner);
+    }
+
+
     ionViewDidLoad() {
-        if (!this.device) {
-            this.navCtrl.setRoot(Scanner);
-        }
         console.log('ionViewDidLoad ViewerPage');
     }
 
