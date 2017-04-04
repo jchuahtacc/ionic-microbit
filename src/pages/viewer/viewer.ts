@@ -20,7 +20,7 @@ export class ViewerPage {
 
     public device: any = null;
 
-    public sensor: SensorModel = new SensorModel();
+    public sensor: SensorModel;
 
     public isConnecting: boolean = false;
 
@@ -38,6 +38,19 @@ export class ViewerPage {
                     console.log("found device_id preference", id);
                     this.device = { };
                     this.device.id = id;
+                    this.prefs.fetch('device_name').then(
+                        (name) => {
+                            if (name && name.length) {
+                                console.log("found device_name preference");
+                                this.device.name = name;
+                            }
+                            this.connectToDevice();
+                        },
+                        (error) => {
+                            console.log("couldn't load app preferences from system!");
+                            this.connectToDevice();
+                        }
+                    );
                 }
             },
             () => {
@@ -47,13 +60,16 @@ export class ViewerPage {
         } else {
             console.log("Saving device_id preference");
             this.prefs.store('device_id', this.device.id).then( () => { console.log("device_id preference saved"); }, () => { console.log("failed to save device_id preference!"); });
+            if (this.device.name) {
+                this.prefs.store('device_name', this.device.name).then( () => { console.log("device_name preference saved"); },
+                    () => { console.log("failed to save device_name preference!"); });
+            }
             this.connectToDevice();
-            this.sensor = new SensorModel(this.device.id);
         }
     }
 
     connectToDevice() {
-
+        this.sensor = new SensorModel(this.device.id, this.ble, this.zone);
     }
 
     goToBluetooth() {

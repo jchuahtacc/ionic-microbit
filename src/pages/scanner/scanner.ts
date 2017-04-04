@@ -30,6 +30,9 @@ export class Scanner {
 
   public devices: Array<any> = [];
 
+  // Can't get this to return only devices with specific service UUIDs, leaving empty for now
+  public services: Array<string> = [];
+
   public bluetooth: BLE;
 
   constructor(public navCtrl: NavController, public plt: Platform, public ble: BLE, public modalCtrl: ModalController, public zone: NgZone) {
@@ -44,7 +47,7 @@ export class Scanner {
     this.ble.isEnabled().then( () => {
         console.log("Starting bluetooth device scan");
         this.isScanning = true;
-        this.ble.startScan([]).subscribe( device => {
+        this.ble.startScan(this.services).subscribe( device => {
             console.log("Discovered", device);
             this.zone.run( () => {
                 this.devices.push(device);
@@ -76,7 +79,6 @@ export class Scanner {
     if (device.id) {
         this.ble.stopScan();
         this.navCtrl.setRoot(ViewerPage, { device: device });
-    //        this.ble.connect(device.id).subscribe(data => { console.log("device connection to " + device.id, data); }, data => { console.log("connect error", data); });
     }
   }
 
