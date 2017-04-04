@@ -1,0 +1,45 @@
+<!--
+  Generated template for the Viewer page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Micro:Bit Viewer</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <div *ngIf="device != null">
+        <div *ngIf="isConnecting">Connecting to {{device.name ? device.name : device.id }} <ion-spinner></ion-spinner></div>
+        <div *ngIf="isConnectFailed">Failed to connect to {{device.name ? device.name : device.id}}<br /><button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button></div>
+        <div *ngIf="device">{{device.id}}</div>
+    </div>
+    <ion-list no-lines>
+        <ion-list-header>Accelerometer (G)</ion-list-header>
+        <ion-item>
+            <ion-icon item-left></ion-icon>
+            <span>X</span>
+            <span item-right>{{sensor.accel_x}}</span>
+        </ion-item>
+        <ion-item>
+            <ion-icon item-left></ion-icon>
+            <span>Y</span>
+            <span item-right>{{sensor.accel_y}}</span>
+        </ion-item>
+        <ion-item>
+            <ion-icon item-left></ion-icon>
+            <span>Z</span>
+            <span item-right>{{sensor.accel_z}}</span>
+        </ion-item>
+    </ion-list>
+
+
+</ion-content>

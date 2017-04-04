@@ -12,6 +12,8 @@ import { BleModal } from '../blemodal/blemodal';
 
 import { BLE } from '@ionic-native/ble';
 
+import { ViewerPage } from '../viewer/viewer';
+
 @Component({
   selector: 'page-scanner',
   templateUrl: 'scanner.html'
@@ -70,13 +72,12 @@ export class Scanner {
                                 });
   }
 
-
-  systemBluetoothSettings() {
-    this.bluetooth.showBluetoothSettings().then(() => {  }, (error) => { console.log("ble settings error", error); });
-  }
-
   deviceSelected(device: any) {
-    console.log("Device selected", device);
+    if (device.id) {
+        this.ble.stopScan();
+        this.navCtrl.setRoot(ViewerPage, { device: device });
+    //        this.ble.connect(device.id).subscribe(data => { console.log("device connection to " + device.id, data); }, data => { console.log("connect error", data); });
+    }
   }
 
 }

@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Scanner } from '../pages/scanner/scanner';
-import { Page2 } from '../pages/page2/page2';
+import { ViewerPage } from '../pages/viewer/viewer';
 import { BleModal } from '../pages/blemodal/blemodal';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -13,7 +13,7 @@ import { BLE } from '@ionic-native/ble';
   declarations: [
     MyApp,
     Scanner,
-    Page2,
+    ViewerPage,
     BleModal
   ],
   imports: [
@@ -24,7 +24,7 @@ import { BLE } from '@ionic-native/ble';
     MyApp,
     Scanner,
     BleModal,
-    Page2
+    ViewerPage,
   ],
   providers: [
     StatusBar,

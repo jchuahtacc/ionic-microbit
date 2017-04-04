@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Scanner } from '../pages/scanner/scanner';
-import { Page2 } from '../pages/page2/page2';
+import { ViewerPage } from '../pages/viewer/viewer';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,7 +12,7 @@ import { Page2 } from '../pages/page2/page2';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Page2;
+  rootPage: any = ViewerPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -22,7 +22,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Bluetooth Devices', component: Scanner },
-      { title: 'Page Two', component: Page2 }
+      { title: 'Micro:Bit Viewer', component: ViewerPage }
     ];
 
   }
