@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NgZone } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { BLE } from '@ionic-native/ble';
 import { AppPreferences } from '@ionic-native/app-preferences';
 import { Scanner } from '../scanner/scanner';
 import { SensorModel } from '../../models/sensor';
+import { BleModal } from '../blemodal/blemodal';
 
 /*
   Generated class for the Viewer page.
@@ -22,11 +23,13 @@ export class ViewerPage {
 
     public sensor: SensorModel;
 
-    public isConnecting: boolean = false;
+    //    public isConnecting: boolean = false;
 
-    public isConnectFailed: boolean = false;
+    // public isConnectFailed: boolean = false;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public ble: BLE, private prefs: AppPreferences, public zone: NgZone) {
+    public bluetoothDisabled: boolean = false;
+
+    constructor(public navCtrl: NavController, public navParams: NavParams, public ble: BLE, private prefs: AppPreferences, public zone: NgZone, public modalCtrl: ModalController) {
         this.device = this.navParams.get('device');
         if (!this.device || !this.device.id) {
             console.log("No device selected. Attempting to load from preferences...");
@@ -44,11 +47,9 @@ export class ViewerPage {
                                 console.log("found device_name preference");
                                 this.device.name = name;
                             }
-                            this.connectToDevice();
                         },
                         (error) => {
                             console.log("couldn't load app preferences from system!");
-                            this.connectToDevice();
                         }
                     );
                 }
@@ -66,6 +67,22 @@ export class ViewerPage {
             }
             this.connectToDevice();
         }
+    }
+
+    ionViewWillLoad() {
+        this.ble.isEnabled().then(
+            () => { this.bluetoothDisabled = false; this.connectToDevice(); }, 
+            () => {
+                console.log("bluetooth is not enabled");
+                let bleModal = this.modalCtrl.create(BleModal);
+                bleModal.onDidDismiss(data => {
+                    // If bluetooth is enabled after the modal, great! Connect.  If it's still not enabled, do nothing.
+                    this.ble.isEnabled().then(() => { this.bluetoothDisabled = false; this.connectToDevice(); },
+                                              () => { this.bluetoothDisabled = true; });
+                });
+                bleModal.present();
+            }
+        );
     }
 
     connectToDevice() {

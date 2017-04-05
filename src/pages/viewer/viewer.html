@@ -22,6 +22,10 @@
         <div *ngIf="!sensor.isConnected && !sensor.isConnecting">Failed to connect to {{device.name ? device.name : device.id}}<br /><button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button></div>
         <div *ngIf="sensor.isConnected">{{device.name ? device.name : device.id }}</div>
     </div>
+    <div *ngIf="bluetoothDisabled">
+        Your Bluetooth is not enabled.<br />
+        <button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button>
+    </div>
     <ion-list no-lines *ngIf="sensor != null">
         <ion-list-header>Accelerometer (G)</ion-list-header>
         <ion-item>
