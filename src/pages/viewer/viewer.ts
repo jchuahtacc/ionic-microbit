@@ -69,7 +69,7 @@ export class ViewerPage {
         }
     }
 
-    ionViewWillLoad() {
+    ionViewDidEnter() {
         this.ble.isEnabled().then(
             () => { this.bluetoothDisabled = false; this.connectToDevice(); }, 
             () => {
@@ -91,11 +91,6 @@ export class ViewerPage {
 
     goToBluetooth() {
         this.navCtrl.setRoot(Scanner);
-    }
-
-
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad ViewerPage');
     }
 
 }
