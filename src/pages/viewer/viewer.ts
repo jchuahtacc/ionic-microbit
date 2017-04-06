@@ -70,6 +70,7 @@ export class ViewerPage {
     }
 
     ionViewDidEnter() {
+        console.log("ionViewDidEnter Viewer");
         this.ble.isEnabled().then(
             () => { this.bluetoothDisabled = false; this.connectToDevice(); }, 
             () => {

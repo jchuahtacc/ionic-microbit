@@ -27,23 +27,21 @@
         <button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button>
     </div>
     <ion-list no-lines *ngIf="sensor != null">
-        <ion-list-header>Accelerometer (G)</ion-list-header>
+    <ion-list-header>Accelerometer (G<span *ngIf="sensor.sensors.accelerometer.period != NaN">, refreshed every {{sensor.sensors.accelerometer.characteristics.period.value}} ms</span>)</ion-list-header>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>X</span>
-            <span item-right>{{sensor.accel_x}}</span>
+            <span item-right>{{sensor.sensors.accelerometer.characteristics.data.x}}</span>
         </ion-item>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>Y</span>
-            <span item-right>{{sensor.accel_y}}</span>
+            <span item-right>{{sensor.sensors.accelerometer.characteristics.data.y}}</span>
         </ion-item>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>Z</span>
-            <span item-right>{{sensor.accel_z}}</span>
+            <span item-right>{{sensor.sensors.accelerometer.characteristics.data.z}}</span>
         </ion-item>
     </ion-list>
-
-
 </ion-content>
