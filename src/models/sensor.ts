@@ -75,9 +75,11 @@ export class SensorModel {
             this.zone.run( () => {
                 this.isConnecting = true;
             });
+            console.log("scanning for", device_id);
             this.ble.scan([], 10).subscribe( data => {
+                console.log("Found device", data);
                 if (data.id == device_id) {
-                    console.log("Found device", data);
+                    console.log("Device matched", data);
                     this.ble.connect(device_id).subscribe(
                         data => {
                             this.zone.run( () => {
@@ -110,7 +112,7 @@ export class SensorModel {
         this.ble.read(this.device_id, service_uuid, period_uuid).then(
             data => { 
                 sensor.characteristics.period.value = new Uint16Array(data)[0]; 
-                console.log("got period for ", sensor);
+                console.log("got period of " + sensor.characteristics.period.value + "ms for ", sensor);
                 this.checkPolling();
             }, 
             error => { 
@@ -135,16 +137,18 @@ export class SensorModel {
                             case "sint8" : parsed = new Int8Array(data); break;
                             default : console.log("Unknown data type for " + characteristic + " in " + characteristic.uuid); return;
                         };
-                        if (characteristic.hasOwnProperty('value')) {
-                            characteristic.value = parsed[0];
-                        } else {
-                            characteristic.x = parsed[0];
-                            characteristic.y = parsed[1];
-                            characteristic.z = parsed[2];
-                        }
+                        this.zone.run(() => {
+                            if (characteristic.hasOwnProperty('value')) {
+                                characteristic.value = parsed[0];
+                            } else {
+                                characteristic.x = parsed[0];
+                                characteristic.y = parsed[1];
+                                characteristic.z = parsed[2];
+                            }
+                        });
                     },
                     error => {
-                        console.log("Error reading " + characteristic.uuid, error);
+                        //console.log("Error reading " + characteristic.uuid, error);
                     }
                 );
             }
@@ -153,16 +157,24 @@ export class SensorModel {
 
     startSensors() {
         for (var sensor in this.sensors) {
+            console.log("Getting period for sensor", sensor);
             this.getPeriod(this.sensors[sensor]);
         }
     }
 
     startPolling() {
         var that = this;
+        this.interval = setInterval( () => {
+            for (var sensor in this.sensors) {
+                this.refreshValues(this.sensors[sensor]);
+            }
+        }, 20);
+        /*
         this.interval = setInterval(function() {
             var current = that.tick++;
             console.log("current tick", current);
         }, 1000);
+        */
     }
 
     checkPolling() {

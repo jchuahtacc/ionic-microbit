@@ -5,6 +5,7 @@ import { BLE } from '@ionic-native/ble';
 import { AppPreferences } from '@ionic-native/app-preferences';
 import { Scanner } from '../scanner/scanner';
 import { SensorModel } from '../../models/sensor';
+import { UARTModel } from '../../models/uart';
 import { BleModal } from '../blemodal/blemodal';
 
 /*
@@ -21,11 +22,7 @@ export class ViewerPage {
 
     public device: any = null;
 
-    public sensor: SensorModel;
-
-    //    public isConnecting: boolean = false;
-
-    // public isConnectFailed: boolean = false;
+    public uart: UARTModel;
 
     public bluetoothDisabled: boolean = false;
 
@@ -87,7 +84,8 @@ export class ViewerPage {
     }
 
     connectToDevice() {
-        this.sensor = new SensorModel(this.device.id, this.ble, this.zone);
+    //    this.sensor = new SensorModel(this.device.id, this.ble, this.zone);
+        this.uart = new UARTModel(this.device.id, this.ble, this.zone);
     }
 
     goToBluetooth() {
