@@ -17,53 +17,53 @@
 
 
 <ion-content padding>
-    <div *ngIf="device != null && uart != null">
-        <div>{{device.name ? device.name : device.id}}: {{uart.state}}</div>
+    <div *ngIf="device != null && sensors != null">
+        <div>{{device.name ? device.name : device.id}}: {{sensors.state}}</div>
     </div>
     <div *ngIf="bluetoothDisabled">
         Your Bluetooth is not enabled.<br />
     </div>
-    <div *ngIf="bluetoothDisabled || uart && uart.error">
+    <div *ngIf="bluetoothDisabled || sensors && sensors.error">
         <button ion-button (click)="goToBluetooth()">Go to Bluetooth Options</button>
     </div>
-    <ion-list no-lines *ngIf="uart != null">
+    <ion-list no-lines *ngIf="sensors != null">
         <ion-list-header>Accelerometer</ion-list-header>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>X</span>
-            <span item-right>{{uart.accel_x}}</span>
+            <span item-right>{{sensors.accel_x}}</span>
         </ion-item>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>Y</span>
-            <span item-right>{{uart.accel_y}}</span>
+            <span item-right>{{sensors.accel_y}}</span>
         </ion-item>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>Z</span>
-            <span item-right>{{uart.accel_z}}</span>
+            <span item-right>{{sensors.accel_z}}</span>
         </ion-item>
         <ion-list-header>Magnetometer</ion-list-header>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>X</span>
-            <span item-right>{{uart.mag_x}}</span>
+            <span item-right>{{sensors.mag_x}}</span>
         </ion-item>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>Y</span>
-            <span item-right>{{uart.mag_y}}</span>
+            <span item-right>{{sensors.mag_y}}</span>
         </ion-item>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>Z</span>
-            <span item-right>{{uart.mag_z}}</span>
+            <span item-right>{{sensors.mag_z}}</span>
         </ion-item>
         <ion-list-header>Temperature</ion-list-header>
         <ion-item>
             <ion-icon item-left></ion-icon>
             <span>C</span>
-            <span item-right>{{uart.temp}}</span>
+            <span item-right>{{sensors.temp}}</span>
         </ion-item>
     </ion-list>
 </ion-content>

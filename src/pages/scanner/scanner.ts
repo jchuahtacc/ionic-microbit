@@ -59,7 +59,7 @@ export class Scanner {
                 console.log("Stopping bluetooth device scan");
                 this.isScanning = false;
             });
-        }, 30000);
+        }, 10000);
     });
   }
 
